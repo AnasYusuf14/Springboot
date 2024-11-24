@@ -3,6 +3,7 @@ package com.springboot.jpamappings;
 import com.springboot.jpamappings.entity.Course;
 import com.springboot.jpamappings.entity.Instructor;
 import com.springboot.jpamappings.entity.InstructorDetail;
+import com.springboot.jpamappings.entity.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,11 +30,70 @@ public class JpamappingsApplication {
 //			createInstructorWithCourses(appDAO);
 //			findInstructorWithCourses(appDAO);
 //			findCoursesForInstructor(appDAO);
-			findInstructorWithCoursesJoinFetch(appDAO);
+//			findInstructorWithCoursesJoinFetch(appDAO);
+//			updateInstructor(appDAO);
+//			updateCourse(appDAO);
+//			deleteCourse(appDAO);
+//			createCourseAndReviews(appDAO);
+//			retrieveCourseAndReviews(appDAO);
+			deleteCourseAndReviews(appDAO);
 		};
+
+
 
 		
 
+
+	}
+
+	private void deleteCourseAndReviews(AppDAO appDAO) {
+		int theId= 11;
+		appDAO.deleteCourseById(theId);
+		System.out.println("Done!");
+	}
+
+	private void retrieveCourseAndReviews(AppDAO appDAO) {
+		//get course
+		int theId = 10;
+		Course tempCourse = appDAO.findCourseAndReviewsByCourseId(theId);
+		System.out.println(tempCourse);
+		System.out.println("Reviews : " + tempCourse.getReviews());
+	}
+
+	private void createCourseAndReviews(AppDAO appDAO) {
+		//create course
+		Course tempCourse = new Course("Pacman - how To score 1 million points");
+		//add some reviews
+		tempCourse.addReview(new Review("Great course..!"));
+		tempCourse.addReview(new Review("Good course..!"));
+		tempCourse.addReview(new Review("Perfect course..!"));
+		//save course
+		appDAO.save(tempCourse);
+		System.out.println(tempCourse);
+		System.out.println(tempCourse.getReviews());
+	}
+
+	private void deleteCourse(AppDAO appDAO) {
+		int id = 10;
+		appDAO.deleteCourseById(id);
+		System.out.println("Done!");
+	}
+
+	private void updateCourse(AppDAO appDAO) {
+		int theId = 10;
+		Course tempCourse = appDAO.findCourseById(theId);
+		tempCourse.setTitle("Enjoy");
+		appDAO.update(tempCourse);
+		System.out.println(tempCourse.getTitle());
+	}
+
+	private void updateInstructor(AppDAO appDAO) {
+		int id = 1;
+		Instructor tempInstructor = appDAO.findInstructorById(id);
+		//update the instructor
+		tempInstructor.setLastName("Alshourafa");
+		appDAO.update(tempInstructor);
+		System.out.println(tempInstructor);
 
 	}
 
@@ -102,7 +162,7 @@ public class JpamappingsApplication {
 	}
 
 	private void deleteInstructor(AppDAO appDAO) {
-		int theId = 2;
+		int theId = 1;
 		System.out.println("deleteing instructor");
 		appDAO.deleteInstructorById(theId);
 	}
